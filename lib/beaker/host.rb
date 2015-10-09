@@ -2,6 +2,7 @@ require 'socket'
 require 'timeout'
 require 'benchmark'
 require 'rsync'
+require 'find'
 
 [ 'command', 'ssh_connection'].each do |lib|
   require "beaker/#{lib}"
@@ -363,7 +364,7 @@ module Beaker
           @logger.trace result.stdout
         end
       else # a directory with ignores
-        dir_source = Dir.glob("#{source}/{**,.**/**}/{*,.*}").reject do |f|
+        dir_source = Find.find(source).reject do |f|
           f.gsub(/\A#{Regexp.escape(source)}/, '') =~ ignore_re #only match against subdirs, not full path
         end
         @logger.debug "After rejecting ignored files/dirs, going to scp [#{dir_source.join(", ")}]"
