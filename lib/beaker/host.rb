@@ -366,7 +366,7 @@ module Beaker
         dir_source = Dir.glob("#{source}/{**,.**/**}/{*,.*}").reject do |f|
           f.gsub(/\A#{Regexp.escape(source)}/, '') =~ ignore_re #only match against subdirs, not full path
         end
-        @logger.trace "After rejecting ignored files/dirs, going to scp [#{dir_source.join(", ")}]"
+        @logger.debug "After rejecting ignored files/dirs, going to scp [#{dir_source.join(", ")}]"
 
         # create necessary directory structure on host
         # run this quietly (no STDOUT)
